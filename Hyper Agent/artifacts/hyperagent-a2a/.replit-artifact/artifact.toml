@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "HyperAgent A2A"
+description = "A sandboxed A2A micro-task workspace for service listings, negotiated quotes, and accepted task execution. Optional Gemini/OpenAI SDK calls use owner-supplied server environment keys; without keys, a labeled local mock runs. The ledger and claim modal are virtual only; external outreach and payouts are not connected."
+version = "1.0.0"
+id = "artifacts/hyperagent-a2a"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25712
+
+[services.development]
+run = "pnpm --filter @workspace/hyperagent-a2a run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/hyperagent-a2a", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/hyperagent-a2a/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25712"
+BASE_PATH = "/"
